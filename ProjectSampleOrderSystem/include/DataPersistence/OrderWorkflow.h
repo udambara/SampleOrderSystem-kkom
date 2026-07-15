@@ -22,6 +22,11 @@ public:
     // True if a production job is currently running.
     bool IsLineBusy(const std::vector<Order>& orders) const;
 
+    // Enqueues a pre-built PRODUCING test order (see AdminController), bypassing
+    // the approval step. Shares the same queueing rule as Approve: starts
+    // immediately if the line is idle, otherwise waits at the back of the queue.
+    Order EnqueueTestOrder(Order order);
+
     // Advances production state: completes the current job if its time has
     // elapsed (crediting the sample's stock with the full actualProductionQty),
     // and starts the next queued job if the line is idle. Should be called once

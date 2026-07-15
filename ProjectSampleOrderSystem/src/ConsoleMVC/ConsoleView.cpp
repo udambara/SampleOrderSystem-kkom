@@ -327,4 +327,43 @@ void ConsoleView::PrintMonitoringMenu() const {
                << "0. 이전 메뉴\n";
 }
 
+void ConsoleView::PrintAdminMenu() const {
+    std::cout << "\n--- 관리자모드 ---\n"
+               << "1. 테스트 주문 생성 (가속평가)\n"
+               << "2. 로그 조회\n"
+               << "0. 이전 메뉴\n";
+}
+
+TestOrderInput ConsoleView::ReadTestOrderInput() const {
+    TestOrderInput input;
+    std::cout << "시료ID: ";
+    std::getline(std::cin, input.sampleId);
+    std::cout << "고객명: ";
+    std::getline(std::cin, input.customerName);
+    std::cout << "주문수량: ";
+    std::cin >> input.quantity;
+    std::cout << "생산시간(초): ";
+    std::cin >> input.totalProductionSeconds;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return input;
+}
+
+void ConsoleView::PrintTestOrderResult(const dp::Order& order, bool startedImmediately) const {
+    std::cout << "\n[테스트 주문 생성 결과]\n"
+               << "주문번호: " << order.orderNo << "\n"
+               << "지정 생산시간: " << order.totalProductionSeconds << "초\n"
+               << "대기열 상태: " << (startedImmediately ? "즉시 생산 시작" : "대기열 등록 (생산라인 사용중)") << "\n";
+}
+
+void ConsoleView::PrintLogEntries(const std::vector<std::string>& entries) const {
+    std::cout << "\n[상태전환 로그] (최근 순)\n";
+    if (entries.empty()) {
+        std::cout << "기록된 로그 없음\n";
+        return;
+    }
+    for (const std::string& entry : entries) {
+        std::cout << entry << "\n";
+    }
+}
+
 }

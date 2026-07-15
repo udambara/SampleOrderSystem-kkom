@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 namespace logging {
 
@@ -13,6 +14,10 @@ public:
     void LogOrderTransition(const std::string& orderNo,
                              const std::string& fromStatus,
                              const std::string& toStatus) const;
+
+    // Returns up to `count` most recent log lines, newest first. Empty if the
+    // log file doesn't exist yet or has no entries.
+    std::vector<std::string> ReadRecentTransitions(int count) const;
 
 private:
     std::string m_filePath;

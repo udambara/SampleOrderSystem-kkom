@@ -54,6 +54,15 @@ Order OrderWorkflow::Approve(Order order) {
     return order;
 }
 
+Order OrderWorkflow::EnqueueTestOrder(Order order) {
+    bool lineBusy = IsLineBusy(m_orderRepo.GetAll());
+    order.productionStartEpochSec = lineBusy ? 0 : NowEpochSec();
+
+    std::string errorMessage;
+    m_orderRepo.Add(order, errorMessage);
+    return order;
+}
+
 Order OrderWorkflow::Reject(Order order) {
     order.status = OrderStatus::REJECTED;
     m_orderRepo.Update(order);

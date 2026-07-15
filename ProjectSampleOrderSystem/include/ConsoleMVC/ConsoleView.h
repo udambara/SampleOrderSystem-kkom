@@ -15,6 +15,13 @@ struct NewOrderInput {
     int quantity = 0;
 };
 
+struct TestOrderInput {
+    std::string sampleId;
+    std::string customerName;
+    int quantity = 0;
+    long long totalProductionSeconds = 0;
+};
+
 class ConsoleView {
 public:
     void PrintMainMenu() const;
@@ -56,6 +63,11 @@ public:
     void PrintShippingResult(const dp::Order& order) const;
 
     void PrintMonitoringMenu() const;
+
+    void PrintAdminMenu() const;
+    TestOrderInput ReadTestOrderInput() const;
+    void PrintTestOrderResult(const dp::Order& order, bool startedImmediately) const;
+    void PrintLogEntries(const std::vector<std::string>& entries) const;
 };
 
 }

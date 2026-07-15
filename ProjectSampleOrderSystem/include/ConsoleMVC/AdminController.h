@@ -10,11 +10,18 @@ namespace cmvc {
 
 class AdminController {
 public:
-    // Runs the admin-mode submenu. Stub in this phase — see docs/phases/phase9.md.
+    // Runs the admin-mode submenu loop until the user chooses to go back.
     void Run();
 
 private:
+    dp::SampleRepository m_sampleRepo;
+    dp::OrderRepository m_orderRepo;
+    dp::OrderWorkflow m_workflow{m_sampleRepo, m_orderRepo};
+    logging::Logger m_logger;
     ConsoleView m_view;
+
+    void HandleCreateTestOrder();
+    void HandleViewLogs();
 };
 
 }
