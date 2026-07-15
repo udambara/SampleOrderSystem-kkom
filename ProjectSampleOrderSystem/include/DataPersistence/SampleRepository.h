@@ -21,6 +21,10 @@ public:
 
     std::optional<Sample> FindById(const std::string& id) const;
 
+    // Adds delta to the sample's stock (delta may be negative). Returns false if not found
+    // or if the resulting stock would be negative.
+    bool AdjustStock(const std::string& id, int delta, std::string& errorMessage);
+
 private:
     std::string m_filePath;
 

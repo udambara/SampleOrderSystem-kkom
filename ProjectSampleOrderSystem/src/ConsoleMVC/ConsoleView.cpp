@@ -1,6 +1,7 @@
 #include "ConsoleMVC/ConsoleView.h"
 
 #include <cstdlib>
+#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <limits>
@@ -181,6 +182,49 @@ int ConsoleView::ReadIndexChoice(int count, const std::string& prompt) const {
     }
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     return choice;
+}
+
+void ConsoleView::PrintProductionMenu() const {
+    std::cout << "\n--- 생산라인 ---\n"
+               << "1. 생산현황표기\n"
+               << "2. 대기주문확인\n"
+               << "0. 이전 메뉴\n";
+}
+
+void ConsoleView::PrintProductionStatus(const std::optional<dp::Order>& current, const dp::SampleRepository& sampleRepo) const {
+    std::cout << "\n[생산현황]\n";
+    if (!current.has_value()) {
+        std::cout << "생산중인 주문이 없습니다.\n";
+        return;
+    }
+
+    std::optional<dp::Sample> sample = sampleRepo.FindById(current->sampleId);
+    std::string sampleName = sample.has_value() ? sample->name : current->sampleId;
+
+    long long elapsed = static_cast<long long>(std::time(nullptr)) - current->productionStartEpochSec;
+    long long remaining = current->totalProductionSeconds - elapsed;
+    if (remaining < 0) remaining = 0;
+
+    std::cout << "주문번호: " << current->orderNo << "\n"
+               << "시료명: " << sampleName << "\n"
+               << "경과시간: " << elapsed << "초 / 총 " << current->totalProductionSeconds << "초\n"
+               << "남은시간: " << remaining << "초\n";
+}
+
+void ConsoleView::PrintWaitingQueue(const std::vector<dp::Order>& waiting, const dp::SampleRepository& sampleRepo) const {
+    std::cout << "\n[대기주문] (FIFO)\n";
+    if (waiting.empty()) {
+        std::cout << "대기중인 주문이 없습니다.\n";
+        return;
+    }
+    int index = 1;
+    for (const dp::Order& order : waiting) {
+        std::optional<dp::Sample> sample = sampleRepo.FindById(order.sampleId);
+        std::string sampleName = sample.has_value() ? sample->name : order.sampleId;
+        std::cout << index << ". " << order.orderNo << " | " << sampleName
+                   << " | " << order.quantity << "ea\n";
+        ++index;
+    }
 }
 
 }

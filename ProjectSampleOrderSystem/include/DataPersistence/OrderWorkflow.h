@@ -22,6 +22,12 @@ public:
     // True if a production job is currently running.
     bool IsLineBusy(const std::vector<Order>& orders) const;
 
+    // Advances production state: completes the current job if its time has
+    // elapsed (crediting the sample's stock with the full actualProductionQty),
+    // and starts the next queued job if the line is idle. Should be called once
+    // per menu iteration. Returns the order that just completed, if any (for logging).
+    std::optional<Order> Tick();
+
 private:
     SampleRepository& m_sampleRepo;
     OrderRepository& m_orderRepo;

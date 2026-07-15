@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 #include <vector>
 #include "DataPersistence/Sample.h"
@@ -42,6 +43,10 @@ public:
 
     // Reads a 1-based selection index; returns 0 if the user cancels.
     int ReadIndexChoice(int count, const std::string& prompt) const;
+
+    void PrintProductionMenu() const;
+    void PrintProductionStatus(const std::optional<dp::Order>& current, const dp::SampleRepository& sampleRepo) const;
+    void PrintWaitingQueue(const std::vector<dp::Order>& waiting, const dp::SampleRepository& sampleRepo) const;
 };
 
 }

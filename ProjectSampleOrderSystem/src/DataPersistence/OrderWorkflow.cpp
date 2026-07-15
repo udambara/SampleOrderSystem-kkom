@@ -57,4 +57,37 @@ Order OrderWorkflow::Reject(Order order) {
     return order;
 }
 
+std::optional<Order> OrderWorkflow::Tick() {
+    std::vector<Order> orders = m_orderRepo.GetAll();
+
+    auto currentIt = std::find_if(orders.begin(), orders.end(), [](const Order& o) {
+        return o.status == OrderStatus::PRODUCING && o.productionStartEpochSec > 0;
+    });
+
+    std::optional<Order> completed;
+    if (currentIt != orders.end()) {
+        long long elapsed = NowEpochSec() - currentIt->productionStartEpochSec;
+        if (elapsed >= currentIt->totalProductionSeconds) {
+            std::string errorMessage;
+            m_sampleRepo.AdjustStock(currentIt->sampleId, currentIt->actualProductionQty, errorMessage);
+            currentIt->status = OrderStatus::CONFIRMED;
+            m_orderRepo.Update(*currentIt);
+            completed = *currentIt;
+            orders = m_orderRepo.GetAll();
+        }
+    }
+
+    if (!IsLineBusy(orders)) {
+        auto waitingIt = std::find_if(orders.begin(), orders.end(), [](const Order& o) {
+            return o.status == OrderStatus::PRODUCING && o.productionStartEpochSec == 0;
+        });
+        if (waitingIt != orders.end()) {
+            waitingIt->productionStartEpochSec = NowEpochSec();
+            m_orderRepo.Update(*waitingIt);
+        }
+    }
+
+    return completed;
+}
+
 }
