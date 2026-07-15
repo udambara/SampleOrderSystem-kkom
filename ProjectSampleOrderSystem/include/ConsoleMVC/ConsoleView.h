@@ -6,6 +6,12 @@
 
 namespace cmvc {
 
+struct NewOrderInput {
+    std::string sampleId;
+    std::string customerName;
+    int quantity = 0;
+};
+
 class ConsoleView {
 public:
     void PrintMainMenu() const;
@@ -23,6 +29,9 @@ public:
     void PrintSampleSearchMenu() const;
     // label is interpolated into the prompt, e.g. "검색어(이름): ".
     std::string ReadSearchKeyword(const std::string& label) const;
+
+    void PrintOrderMenu() const;
+    NewOrderInput ReadNewOrderInput() const;
 };
 
 }

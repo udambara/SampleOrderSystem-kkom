@@ -102,4 +102,22 @@ std::string ConsoleView::ReadSearchKeyword(const std::string& label) const {
     return keyword;
 }
 
+void ConsoleView::PrintOrderMenu() const {
+    std::cout << "\n--- 시료주문 ---\n"
+               << "1. 시료예약\n"
+               << "0. 이전 메뉴\n";
+}
+
+NewOrderInput ConsoleView::ReadNewOrderInput() const {
+    NewOrderInput input;
+    std::cout << "시료ID: ";
+    std::getline(std::cin, input.sampleId);
+    std::cout << "고객명: ";
+    std::getline(std::cin, input.customerName);
+    std::cout << "주문수량: ";
+    std::cin >> input.quantity;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return input;
+}
+
 }
