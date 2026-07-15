@@ -19,7 +19,7 @@ void AppController::Run() {
             case 5: m_shippingController.Run(); break;
             case 6: m_productionController.Run(); break;
             case 7: return;
-            case 8: m_adminController.Run(); break;
+            // 8(관리자모드)은 메인 메뉴에서 비활성화됨 — AdminController는 유지하되 라우팅만 제거.
             default: m_view.PrintError("올바른 메뉴 번호를 선택해주세요."); break;
         }
     }

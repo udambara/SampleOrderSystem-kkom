@@ -76,8 +76,7 @@ void ConsoleView::PrintMainMenu() const {
                << "4. 모니터링\n"
                << "5. 출고처리\n"
                << "6. 생산라인\n"
-               << "7. 종료\n"
-               << "8. 관리자모드\n";
+               << "7. 종료\n";
 }
 
 void ConsoleView::PrintNotImplemented(const std::string& menuName) const {
