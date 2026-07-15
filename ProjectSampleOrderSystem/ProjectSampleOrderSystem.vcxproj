@@ -158,6 +158,7 @@
     <ClCompile Include="src\DataPersistence\SampleRepository.cpp" />
     <ClCompile Include="src\DataPersistence\OrderRepository.cpp" />
     <ClCompile Include="src\DataPersistence\OrderWorkflow.cpp" />
+    <ClCompile Include="src\DataMonitor\DataMonitor.cpp" />
     <ClCompile Include="src\Logging\Logger.cpp" />
     <ClCompile Include="src\ConsoleMVC\ConsoleView.cpp" />
     <ClCompile Include="src\ConsoleMVC\AppController.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="include\DataPersistence\SampleRepository.h" />
     <ClInclude Include="include\DataPersistence\OrderRepository.h" />
     <ClInclude Include="include\DataPersistence\OrderWorkflow.h" />
+    <ClInclude Include="include\DataMonitor\DataMonitor.h" />
     <ClInclude Include="include\Logging\Logger.h" />
     <ClInclude Include="include\ConsoleMVC\ConsoleView.h" />
     <ClInclude Include="include\ConsoleMVC\AppController.h" />

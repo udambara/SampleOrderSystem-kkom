@@ -6,6 +6,11 @@ namespace cmvc {
 
 void ProductionController::Run() {
     while (true) {
+        std::optional<dp::Order> completed = m_workflow.Tick();
+        if (completed.has_value()) {
+            m_logger.LogOrderTransition(completed->orderNo, "PRODUCING", "CONFIRMED");
+        }
+
         m_view.PrintProductionMenu();
         int choice = m_view.ReadMenuChoice("선택: ");
         switch (choice) {

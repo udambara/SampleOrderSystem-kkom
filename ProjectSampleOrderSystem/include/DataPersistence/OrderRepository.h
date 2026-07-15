@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <optional>
 #include <string>
 #include <vector>
@@ -21,6 +22,9 @@ public:
     std::vector<Order> GetByStatus(OrderStatus status) const;
 
     std::optional<Order> FindById(const std::string& id) const;
+
+    // Counts orders per status, including statuses with zero orders.
+    std::map<OrderStatus, int> CountByStatus() const;
 
     // Formats as ORD-YYYYMMDD-NNNN using the current date and existing order count + 1.
     std::string GenerateOrderNo() const;

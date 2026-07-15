@@ -31,10 +31,10 @@
    - `shortageQty`, `actualProductionQty`, `totalProductionSeconds` 계산은 동일 방식으로 수행
    - 상태 `PRODUCING`으로 전환되지만 `productionStartEpochSec = 0` (대기, Phase 5의 대기주문확인에서 확인)
 
-### TC4-4. 재고가 충분한 경우 즉시 CONFIRMED
+### TC4-4. 재고가 충분한 경우 즉시 CONFIRMED + 재고 즉시 차감
 
 1. 별도 시료 `S002`(재고 100)에 대해 수량 10 주문 생성 후 승인
-2. 예상 결과: 즉시 `CONFIRMED` 상태로 전환 (생산 관련 필드는 채워지지 않음)
+2. 예상 결과: 즉시 `CONFIRMED` 상태로 전환 (생산 관련 필드는 채워지지 않음), `stockDeductedAtApproval = true` 기록, **승인 시점에 `S002` 재고가 100 → 90으로 즉시 차감됨** (출고 전인데도 반영)
 
 ### TC4-5. 주문거절
 

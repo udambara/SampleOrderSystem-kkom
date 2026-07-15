@@ -320,4 +320,11 @@ void ConsoleView::PrintShippingResult(const dp::Order& order) const {
                << "상태 변경: CONFIRMED → RELEASE\n";
 }
 
+void ConsoleView::PrintMonitoringMenu() const {
+    std::cout << "\n--- 모니터링 ---\n"
+               << "1. 주문량확인\n"
+               << "2. 재고량확인\n"
+               << "0. 이전 메뉴\n";
+}
+
 }

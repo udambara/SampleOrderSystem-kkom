@@ -30,7 +30,10 @@ Order OrderWorkflow::Approve(Order order) {
     }
 
     if (sample->stock >= order.quantity) {
+        std::string errorMessage;
+        m_sampleRepo.AdjustStock(order.sampleId, -order.quantity, errorMessage);
         order.status = OrderStatus::CONFIRMED;
+        order.stockDeductedAtApproval = true;
         m_orderRepo.Update(order);
         return order;
     }

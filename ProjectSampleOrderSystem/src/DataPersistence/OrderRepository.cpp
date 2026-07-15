@@ -88,6 +88,20 @@ std::optional<Order> OrderRepository::FindById(const std::string& id) const {
     return *it;
 }
 
+std::map<OrderStatus, int> OrderRepository::CountByStatus() const {
+    std::map<OrderStatus, int> counts{
+        {OrderStatus::RESERVED, 0},
+        {OrderStatus::CONFIRMED, 0},
+        {OrderStatus::PRODUCING, 0},
+        {OrderStatus::RELEASE, 0},
+        {OrderStatus::REJECTED, 0}
+    };
+    for (const auto& order : Load()) {
+        counts[order.status]++;
+    }
+    return counts;
+}
+
 std::string OrderRepository::GenerateOrderNo() const {
     std::time_t now = std::time(nullptr);
     std::tm localTime{};

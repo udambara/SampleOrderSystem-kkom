@@ -8,6 +8,7 @@
 
 - `Order`의 `productionStartEpochSec`(0=대기, >0=생산시작시각), `totalProductionSeconds`, `shortageQty` 필드는 Phase 1에서 이미 정의됨 — 이 단계에서 실제로 값을 채운다
 - `actualProductionQty` 필드 추가 — `ceil(shortageQty / yield)`. 생산 완료 시(Phase 5) 재고에 반영되는 값은 `shortageQty`가 아니라 이 값이다 (수율만큼 손실되지 않고 실생산량 전량이 재고로 들어감)
+- `stockDeductedAtApproval` 필드 추가(bool) — 재고가 충분해서 승인 즉시 `CONFIRMED`된 주문은 그 시점에 재고를 바로 차감하고 이 값을 true로 설정한다. 출고(Phase 6)에서 이중 차감을 막기 위해 사용
 
 ## 동작
 
@@ -16,7 +17,7 @@
 2. **주문승인**
    - 목록에서 특정 주문 선택
    - 대상 시료의 현재 재고 조회
-   - 재고 ≥ 주문수량 → 즉시 상태 `CONFIRMED`로 전환
+   - 재고 ≥ 주문수량 → **재고에서 주문수량만큼 즉시 차감**, `stockDeductedAtApproval = true`, 상태 `CONFIRMED`로 전환
    - 재고 < 주문수량 →
      - `shortageQty` = 주문수량 − 재고
      - `actualProductionQty`(실생산량) = `ceil(shortageQty / yield)` — 이 값을 `Order.actualProductionQty`에 저장
@@ -35,7 +36,7 @@
 
 ## 완료 조건
 
-- 재고가 충분한 주문 승인 시 즉시 `CONFIRMED`로 바뀌고 재고는 차감되지 않음(차감은 출고 시점)
+- 재고가 충분한 주문 승인 시 즉시 `CONFIRMED`로 바뀌고, 그 자리에서 재고가 주문수량만큼 차감됨(`stockDeductedAtApproval = true`)
 - 재고가 부족한 주문 승인 시 `PRODUCING`으로 바뀌고 `shortageQty`/`actualProductionQty`/`totalProductionSeconds`가 올바르게 계산됨
 - 생산라인이 비어 있을 때 승인하면 `productionStartEpochSec`가 즉시 채워짐 (Phase 5에서 검증)
 - 거절한 주문은 이후 목록(접수된 주문 목록)에 다시 나타나지 않음

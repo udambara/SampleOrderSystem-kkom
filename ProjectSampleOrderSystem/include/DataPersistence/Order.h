@@ -30,6 +30,11 @@ struct Order {
     int shortageQty = 0;                    // quantity - stock at approval time (informational)
     int actualProductionQty = 0;            // ceil(shortageQty / yield); added to stock once production completes
 
+    // True if stock was already decremented at approval time (immediate CONFIRMED
+    // because stock covered the order). Shipping must not deduct stock again for
+    // these; orders that went through PRODUCING still owe their deduction at ship time.
+    bool stockDeductedAtApproval = false;
+
     // Shipping bookkeeping (only meaningful once status == RELEASE).
     long long releasedAtEpochSec = 0;
     int releasedQty = 0;

@@ -11,7 +11,7 @@
 ## 동작
 
 1. **OrderWorkflow::Tick()**
-   - 앱의 모든 메뉴 진입 시마다 1회 호출 (`AppController`의 메인 루프에서 매 반복 호출)
+   - 앱의 모든 메뉴 진입 시마다 1회 호출된다. `AppController`의 메인 루프뿐 아니라, 사용자가 하위 메뉴(승인/거절, 모니터링, 출고처리, 생산라인)에 계속 머무르는 동안에도 최신 상태가 반영되도록 **각 컨트롤러의 서브메뉴 루프 상단에서도 동일하게 호출**한다 (그렇지 않으면 예: 생산현황표기를 반복 조회하는 동안 실제로는 생산이 끝났는데도 계속 PRODUCING으로 보이는 문제가 생김 — Phase 5 리뷰에서 확인된 버그)
    - 현재 생산중인 주문(`productionStartEpochSec > 0`)의 경과시간이 `totalProductionSeconds` 이상이면:
      - 대상 시료 재고에 `actualProductionQty`(실생산량 전량)만큼 증가 — `shortageQty`가 아님에 주의. 수율 손실 없이 생산라인에 투입한 수량이 그대로 재고에 들어가므로, 부족분보다 재고가 더 늘어날 수 있다
      - 주문 상태 `PRODUCING` → `CONFIRMED`로 전환
@@ -28,6 +28,7 @@
 - `include/DataPersistence/OrderWorkflow.h` / `src/DataPersistence/OrderWorkflow.cpp` — `Tick()`, `IsLineBusy()` 구현
 - `include/ConsoleMVC/ProductionController.h` / `src/ConsoleMVC/ProductionController.cpp` — 생산현황표기/대기주문확인 서브메뉴 구현
 - `include/ConsoleMVC/AppController.h` / `src/ConsoleMVC/AppController.cpp` — 메인 루프에 `OrderWorkflow::Tick()` 호출 추가
+- `ApprovalController`, `MonitoringController`, `ShippingController`, `ProductionController` — 각자 `OrderWorkflow` 인스턴스를 두고 자신의 서브메뉴 루프 상단에서도 `Tick()` 호출 (서브메뉴에 오래 머물러도 상태가 갱신되도록)
 
 ## 완료 조건
 

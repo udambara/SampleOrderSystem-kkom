@@ -6,6 +6,11 @@ namespace cmvc {
 
 void ShippingController::Run() {
     while (true) {
+        std::optional<dp::Order> completed = m_workflow.Tick();
+        if (completed.has_value()) {
+            m_logger.LogOrderTransition(completed->orderNo, "PRODUCING", "CONFIRMED");
+        }
+
         m_view.PrintShippingMenu();
         int choice = m_view.ReadMenuChoice("선택: ");
         switch (choice) {
@@ -31,10 +36,15 @@ void ShippingController::HandleRelease() {
 
     for (int index : indices) {
         dp::Order order = orders[index - 1];
-        std::string errorMessage;
-        if (!m_sampleRepo.AdjustStock(order.sampleId, -order.quantity, errorMessage)) {
-            m_view.PrintError(order.orderNo + ": " + errorMessage);
-            continue;
+
+        // If stock was already deducted at approval time (order went straight to
+        // CONFIRMED because stock covered it), don't deduct it again here.
+        if (!order.stockDeductedAtApproval) {
+            std::string errorMessage;
+            if (!m_sampleRepo.AdjustStock(order.sampleId, -order.quantity, errorMessage)) {
+                m_view.PrintError(order.orderNo + ": " + errorMessage);
+                continue;
+            }
         }
 
         order.status = dp::OrderStatus::RELEASE;
