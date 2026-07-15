@@ -24,6 +24,19 @@
 - `CONFIRMED` 상태의 주문은 출고처리를 통해 재고를 차감하고 `RELEASE` 상태로 마감됩니다.
 - 모든 주문 상태전환은 로그 파일(`logs/order_events.log`)에 기록되어 추적할 수 있습니다.
 
+## 더미데이터 생성기 (DummyDataGenerator)
+
+테스트/데모용 시료·주문 데이터를 대량으로 만들어주는 별도 실행 파일입니다. 메인 프로그램과 동일한 `data/samples.json`, `data/orders.json`을 사용하므로, 생성 후 바로 메인 프로그램에서 조회/승인/생산/출고 흐름을 이어서 테스트할 수 있습니다.
+
+```
+DummyDataGenerator.exe <생성할 시료 수> <생성할 주문 수>
+```
+
+- 예: `DummyDataGenerator.exe 10 20` — 임의의 시료 10개, 그 시료들을 대상으로 한 임의의 주문 20건(모두 `RESERVED` 상태)을 생성
+- 인자를 주지 않으면 사용법 안내만 출력하고 종료
+- 두 값 모두 0이면(또는 생략하면) 아무것도 생성하지 않음
+- 생성되는 주문은 항상 그 시점에 실제로 존재하는 시료만 참조하도록 만들어집니다
+
 ## 개발 상태 및 문서
 
 이 저장소는 PoC(`poc-SampleOrderSystem`, `ConsoleMVC-kkom`, `DataPersistence-kkom`, `DataMonitor-kkom`, `DummyDataGenerator-kkom`)를 참고해 처음부터 다시 구현하는 작업으로, 아래 문서를 기준으로 단계적으로 진행합니다.

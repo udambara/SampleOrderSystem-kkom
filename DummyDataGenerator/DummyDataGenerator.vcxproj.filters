@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\DataPersistence">
+      <UniqueIdentifier>{b1a2c3d4-1111-4a11-8a11-111111111201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일\DataPersistence">
+      <UniqueIdentifier>{b1a2c3d4-1111-4a11-8a11-111111111202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\third_party">
+      <UniqueIdentifier>{b1a2c3d4-1111-4a11-8a11-111111111203}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DummyDataGenerator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ProjectSampleOrderSystem\src\DataPersistence\Sample.cpp">
+      <Filter>소스 파일\DataPersistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ProjectSampleOrderSystem\src\DataPersistence\Order.cpp">
+      <Filter>소스 파일\DataPersistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ProjectSampleOrderSystem\src\DataPersistence\SampleRepository.cpp">
+      <Filter>소스 파일\DataPersistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ProjectSampleOrderSystem\src\DataPersistence\OrderRepository.cpp">
+      <Filter>소스 파일\DataPersistence</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\DummyDataGenerator\DummyDataGenerator.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ProjectSampleOrderSystem\include\DataPersistence\Sample.h">
+      <Filter>헤더 파일\DataPersistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ProjectSampleOrderSystem\include\DataPersistence\Order.h">
+      <Filter>헤더 파일\DataPersistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ProjectSampleOrderSystem\include\DataPersistence\SampleRepository.h">
+      <Filter>헤더 파일\DataPersistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ProjectSampleOrderSystem\include\DataPersistence\OrderRepository.h">
+      <Filter>헤더 파일\DataPersistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ProjectSampleOrderSystem\include\third_party\nlohmann\json.hpp">
+      <Filter>헤더 파일\third_party</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
