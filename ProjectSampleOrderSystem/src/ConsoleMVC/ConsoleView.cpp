@@ -1,10 +1,13 @@
 #include "ConsoleMVC/ConsoleView.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <limits>
+#include <set>
+#include <sstream>
 
 namespace cmvc {
 
@@ -16,6 +19,51 @@ void ExitOnEof() {
     if (std::cin.eof()) {
         std::exit(0);
     }
+}
+
+std::string Trim(const std::string& text) {
+    size_t start = text.find_first_not_of(" \t\r\n");
+    if (start == std::string::npos) {
+        return "";
+    }
+    size_t end = text.find_last_not_of(" \t\r\n");
+    return text.substr(start, end - start + 1);
+}
+
+// Parses a selection string like "1", "1,3", "1-3", or "1~3" into the sorted set
+// of unique indices in [1, count]. Returns an empty set if any token is invalid.
+std::set<int> ParseIndexSelection(const std::string& line, int count) {
+    std::string normalized = line;
+    std::replace(normalized.begin(), normalized.end(), '~', '-');
+
+    std::set<int> result;
+    std::stringstream ss(normalized);
+    std::string token;
+    while (std::getline(ss, token, ',')) {
+        token = Trim(token);
+        if (token.empty()) {
+            return {};
+        }
+        size_t dash = token.find('-');
+        try {
+            if (dash != std::string::npos && dash > 0 && dash + 1 < token.size()) {
+                int a = std::stoi(token.substr(0, dash));
+                int b = std::stoi(token.substr(dash + 1));
+                if (a > b) std::swap(a, b);
+                for (int i = a; i <= b; ++i) {
+                    if (i < 1 || i > count) return {};
+                    result.insert(i);
+                }
+            } else {
+                int v = std::stoi(token);
+                if (v < 1 || v > count) return {};
+                result.insert(v);
+            }
+        } catch (...) {
+            return {};
+        }
+    }
+    return result;
 }
 
 }
@@ -184,6 +232,31 @@ int ConsoleView::ReadIndexChoice(int count, const std::string& prompt) const {
     return choice;
 }
 
+std::vector<int> ConsoleView::ReadIndexChoices(int count, const std::string& prompt) const {
+    std::cout << prompt << " (0=취소, 1~" << count
+               << ", 여러 건은 쉼표 또는 -로 구분 입력. 예: 1,3 또는 1-3): ";
+    while (true) {
+        std::string line;
+        if (!std::getline(std::cin, line)) {
+            ExitOnEof();
+            std::cin.clear();
+            continue;
+        }
+
+        std::string trimmed = Trim(line);
+        if (trimmed == "0") {
+            return {};
+        }
+
+        std::set<int> selection = ParseIndexSelection(trimmed, count);
+        if (!selection.empty()) {
+            return std::vector<int>(selection.begin(), selection.end());
+        }
+
+        std::cout << "0(취소) 또는 1~" << count << " 사이의 번호를 쉼표나 -로 구분해 입력해주세요: ";
+    }
+}
+
 void ConsoleView::PrintProductionMenu() const {
     std::cout << "\n--- 생산라인 ---\n"
                << "1. 생산현황표기\n"
@@ -225,6 +298,26 @@ void ConsoleView::PrintWaitingQueue(const std::vector<dp::Order>& waiting, const
                    << " | " << order.quantity << "ea\n";
         ++index;
     }
+}
+
+void ConsoleView::PrintShippingMenu() const {
+    std::cout << "\n--- 출고처리 ---\n"
+               << "1. 출고대상 조회\n"
+               << "2. 출고처리\n"
+               << "0. 이전 메뉴\n";
+}
+
+void ConsoleView::PrintShippingResult(const dp::Order& order) const {
+    std::time_t releasedAt = static_cast<std::time_t>(order.releasedAtEpochSec);
+    std::tm localTime{};
+    localtime_s(&localTime, &releasedAt);
+
+    std::cout << "\n[출고 처리 결과]\n"
+               << "결과: 출고 처리 완료\n"
+               << "주문번호: " << order.orderNo << "\n"
+               << "출고수량: " << order.releasedQty << "ea\n"
+               << "처리일시: " << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S") << "\n"
+               << "상태 변경: CONFIRMED → RELEASE\n";
 }
 
 }
