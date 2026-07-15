@@ -13,5 +13,126 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\DataPersistence">
+      <UniqueIdentifier>{9a1a2a1e-1111-4a11-8a11-111111111101}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Logging">
+      <UniqueIdentifier>{9a1a2a1e-1111-4a11-8a11-111111111102}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ConsoleMVC">
+      <UniqueIdentifier>{9a1a2a1e-1111-4a11-8a11-111111111103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\DataPersistence">
+      <UniqueIdentifier>{9a1a2a1e-1111-4a11-8a11-111111111104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Logging">
+      <UniqueIdentifier>{9a1a2a1e-1111-4a11-8a11-111111111105}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\ConsoleMVC">
+      <UniqueIdentifier>{9a1a2a1e-1111-4a11-8a11-111111111106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\third_party">
+      <UniqueIdentifier>{9a1a2a1e-1111-4a11-8a11-111111111107}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataPersistence\Sample.cpp">
+      <Filter>소스 파일\DataPersistence</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataPersistence\Order.cpp">
+      <Filter>소스 파일\DataPersistence</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataPersistence\SampleRepository.cpp">
+      <Filter>소스 파일\DataPersistence</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataPersistence\OrderRepository.cpp">
+      <Filter>소스 파일\DataPersistence</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataPersistence\OrderWorkflow.cpp">
+      <Filter>소스 파일\DataPersistence</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Logging\Logger.cpp">
+      <Filter>소스 파일\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleMVC\ConsoleView.cpp">
+      <Filter>소스 파일\ConsoleMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleMVC\AppController.cpp">
+      <Filter>소스 파일\ConsoleMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleMVC\SampleController.cpp">
+      <Filter>소스 파일\ConsoleMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleMVC\OrderController.cpp">
+      <Filter>소스 파일\ConsoleMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleMVC\ApprovalController.cpp">
+      <Filter>소스 파일\ConsoleMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleMVC\MonitoringController.cpp">
+      <Filter>소스 파일\ConsoleMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleMVC\ShippingController.cpp">
+      <Filter>소스 파일\ConsoleMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleMVC\ProductionController.cpp">
+      <Filter>소스 파일\ConsoleMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleMVC\AdminController.cpp">
+      <Filter>소스 파일\ConsoleMVC</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\DataPersistence\Sample.h">
+      <Filter>헤더 파일\DataPersistence</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataPersistence\Order.h">
+      <Filter>헤더 파일\DataPersistence</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataPersistence\SampleRepository.h">
+      <Filter>헤더 파일\DataPersistence</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataPersistence\OrderRepository.h">
+      <Filter>헤더 파일\DataPersistence</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataPersistence\OrderWorkflow.h">
+      <Filter>헤더 파일\DataPersistence</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Logging\Logger.h">
+      <Filter>헤더 파일\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConsoleMVC\ConsoleView.h">
+      <Filter>헤더 파일\ConsoleMVC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConsoleMVC\AppController.h">
+      <Filter>헤더 파일\ConsoleMVC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConsoleMVC\SampleController.h">
+      <Filter>헤더 파일\ConsoleMVC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConsoleMVC\OrderController.h">
+      <Filter>헤더 파일\ConsoleMVC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConsoleMVC\ApprovalController.h">
+      <Filter>헤더 파일\ConsoleMVC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConsoleMVC\MonitoringController.h">
+      <Filter>헤더 파일\ConsoleMVC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConsoleMVC\ShippingController.h">
+      <Filter>헤더 파일\ConsoleMVC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConsoleMVC\ProductionController.h">
+      <Filter>헤더 파일\ConsoleMVC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConsoleMVC\AdminController.h">
+      <Filter>헤더 파일\ConsoleMVC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\third_party\nlohmann\json.hpp">
+      <Filter>헤더 파일\third_party</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

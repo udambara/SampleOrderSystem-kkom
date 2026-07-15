@@ -81,6 +81,8 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -99,6 +101,8 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -115,6 +119,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,6 +139,8 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +151,42 @@
     </Manifest>
   </ItemDefinitionGroup>
 
-  <ItemGroup></ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\DataPersistence\Sample.cpp" />
+    <ClCompile Include="src\DataPersistence\Order.cpp" />
+    <ClCompile Include="src\DataPersistence\SampleRepository.cpp" />
+    <ClCompile Include="src\DataPersistence\OrderRepository.cpp" />
+    <ClCompile Include="src\DataPersistence\OrderWorkflow.cpp" />
+    <ClCompile Include="src\Logging\Logger.cpp" />
+    <ClCompile Include="src\ConsoleMVC\ConsoleView.cpp" />
+    <ClCompile Include="src\ConsoleMVC\AppController.cpp" />
+    <ClCompile Include="src\ConsoleMVC\SampleController.cpp" />
+    <ClCompile Include="src\ConsoleMVC\OrderController.cpp" />
+    <ClCompile Include="src\ConsoleMVC\ApprovalController.cpp" />
+    <ClCompile Include="src\ConsoleMVC\MonitoringController.cpp" />
+    <ClCompile Include="src\ConsoleMVC\ShippingController.cpp" />
+    <ClCompile Include="src\ConsoleMVC\ProductionController.cpp" />
+    <ClCompile Include="src\ConsoleMVC\AdminController.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\DataPersistence\Sample.h" />
+    <ClInclude Include="include\DataPersistence\Order.h" />
+    <ClInclude Include="include\DataPersistence\SampleRepository.h" />
+    <ClInclude Include="include\DataPersistence\OrderRepository.h" />
+    <ClInclude Include="include\DataPersistence\OrderWorkflow.h" />
+    <ClInclude Include="include\Logging\Logger.h" />
+    <ClInclude Include="include\ConsoleMVC\ConsoleView.h" />
+    <ClInclude Include="include\ConsoleMVC\AppController.h" />
+    <ClInclude Include="include\ConsoleMVC\SampleController.h" />
+    <ClInclude Include="include\ConsoleMVC\OrderController.h" />
+    <ClInclude Include="include\ConsoleMVC\ApprovalController.h" />
+    <ClInclude Include="include\ConsoleMVC\MonitoringController.h" />
+    <ClInclude Include="include\ConsoleMVC\ShippingController.h" />
+    <ClInclude Include="include\ConsoleMVC\ProductionController.h" />
+    <ClInclude Include="include\ConsoleMVC\AdminController.h" />
+    <ClInclude Include="include\third_party\nlohmann\json.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

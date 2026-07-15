@@ -8,3 +8,6 @@ Release/
 *.pdb
 *.ilk
 *.exe
+data/
+logs/
+build_log.txt
