@@ -7,7 +7,7 @@
 ## 구현 체크리스트
 
 - [ ] `AdminController` — 테스트 주문 생성 / 로그 조회 서브메뉴
-- [ ] 테스트 주문 생성: 시료ID(존재 검증)/고객명/수량/생산시간(초) 입력 → `status=PRODUCING`, `shortageQty=수량`, `totalProductionSeconds=입력값`으로 즉시 생성
+- [ ] 테스트 주문 생성: 시료ID(존재 검증)/고객명/수량/생산시간(초) 입력 → `status=PRODUCING`, `shortageQty=actualProductionQty=수량`, `totalProductionSeconds=입력값`으로 즉시 생성
 - [ ] `OrderWorkflow`의 큐잉 로직(Phase 5 `IsLineBusy` 등) 재사용해 생산라인 비었으면 즉시 시작, 아니면 대기열 등록
 - [ ] `Logger::LogOrderTransition(orderNo, "-", "PRODUCING")` 호출
 - [ ] 로그 조회: `Logger::ReadRecentTransitions(count)`로 최근 로그를 콘솔에 출력 (없으면 안내 메시지)

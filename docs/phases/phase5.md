@@ -6,14 +6,14 @@
 
 ## 데이터
 
-- 추가 필드 없음 (Phase 1/4에서 정의한 `productionStartEpochSec`, `totalProductionSeconds`, `shortageQty` 사용)
+- 추가 필드 없음 (Phase 1/4에서 정의한 `productionStartEpochSec`, `totalProductionSeconds`, `shortageQty`, `actualProductionQty` 사용)
 
 ## 동작
 
 1. **OrderWorkflow::Tick()**
    - 앱의 모든 메뉴 진입 시마다 1회 호출 (`AppController`의 메인 루프에서 매 반복 호출)
    - 현재 생산중인 주문(`productionStartEpochSec > 0`)의 경과시간이 `totalProductionSeconds` 이상이면:
-     - 대상 시료 재고에 `shortageQty`만큼 증가
+     - 대상 시료 재고에 `actualProductionQty`(실생산량 전량)만큼 증가 — `shortageQty`가 아님에 주의. 수율 손실 없이 생산라인에 투입한 수량이 그대로 재고에 들어가므로, 부족분보다 재고가 더 늘어날 수 있다
      - 주문 상태 `PRODUCING` → `CONFIRMED`로 전환
      - `Logger::LogOrderTransition(orderNo, "PRODUCING", "CONFIRMED")` 호출
    - 생산라인이 비어 있고 대기중인 주문(`productionStartEpochSec == 0`, 상태 `PRODUCING`)이 있으면 가장 먼저 대기열에 들어온 주문을 꺼내 생산 시작(`productionStartEpochSec = now()`)

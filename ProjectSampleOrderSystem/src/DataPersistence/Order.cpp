@@ -34,6 +34,7 @@ void to_json(nlohmann::json& j, const Order& o) {
         {"productionStartEpochSec", o.productionStartEpochSec},
         {"totalProductionSeconds", o.totalProductionSeconds},
         {"shortageQty", o.shortageQty},
+        {"actualProductionQty", o.actualProductionQty},
         {"releasedAtEpochSec", o.releasedAtEpochSec},
         {"releasedQty", o.releasedQty}
     };
@@ -49,6 +50,7 @@ void from_json(const nlohmann::json& j, Order& o) {
     o.productionStartEpochSec = j.value("productionStartEpochSec", 0LL);
     o.totalProductionSeconds = j.value("totalProductionSeconds", 0LL);
     o.shortageQty = j.value("shortageQty", 0);
+    o.actualProductionQty = j.value("actualProductionQty", 0);
     o.releasedAtEpochSec = j.value("releasedAtEpochSec", 0LL);
     o.releasedQty = j.value("releasedQty", 0);
 }

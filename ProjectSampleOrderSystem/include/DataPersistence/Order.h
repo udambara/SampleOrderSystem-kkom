@@ -27,7 +27,8 @@ struct Order {
     // Production line bookkeeping (only meaningful while status == PRODUCING).
     long long productionStartEpochSec = 0;  // 0 = still waiting in queue
     long long totalProductionSeconds = 0;
-    int shortageQty = 0;                    // quantity to add to stock once production completes
+    int shortageQty = 0;                    // quantity - stock at approval time (informational)
+    int actualProductionQty = 0;            // ceil(shortageQty / yield); added to stock once production completes
 
     // Shipping bookkeeping (only meaningful once status == RELEASE).
     long long releasedAtEpochSec = 0;

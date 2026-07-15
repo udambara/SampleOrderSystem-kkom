@@ -21,7 +21,7 @@
 1. 주문 A의 `totalProductionSeconds`(340초) 경과 후 임의의 메뉴에 진입 (Tick 트리거)
 2. 예상 결과:
    - 주문 A 상태가 `PRODUCING` → `CONFIRMED`로 전환
-   - 시료 `S001` 재고가 `shortageQty`(30)만큼 증가
+   - 시료 `S001` 재고가 `actualProductionQty`(34, `shortageQty`인 30이 아님)만큼 증가 — 수율(0.9) 손실 없이 생산라인에 투입한 실생산량 전량이 재고에 반영되기 때문에 부족분(30)보다 4만큼 더 늘어남
    - 생산라인이 비었으므로 대기중이던 주문 B가 자동으로 생산 시작 (`productionStartEpochSec` 채워짐)
 
 ### TC5-4. 생산중인 주문 없음 표시

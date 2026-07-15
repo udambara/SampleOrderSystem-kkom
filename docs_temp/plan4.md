@@ -8,7 +8,7 @@
 
 - [ ] 접수된 주문 목록 (RESERVED 필터링)
 - [ ] `OrderWorkflow::Approve` — 재고 충분 시 즉시 CONFIRMED
-- [ ] `OrderWorkflow::Approve` — 재고 부족 시 shortageQty/실생산량(ceil)/totalProductionSeconds 계산 후 PRODUCING 전환, 생산라인 상태에 따라 즉시 시작 또는 대기
+- [ ] `OrderWorkflow::Approve` — 재고 부족 시 shortageQty/actualProductionQty(ceil)/totalProductionSeconds 계산 후 PRODUCING 전환, 생산라인 상태에 따라 즉시 시작 또는 대기 (재고 반영은 shortageQty가 아니라 actualProductionQty 기준, Phase 5 참고)
 - [ ] `OrderWorkflow::Reject` — 즉시 REJECTED
 - [ ] 승인/거절 각각 `Logger::LogOrderTransition` 호출
 

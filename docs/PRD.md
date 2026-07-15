@@ -54,7 +54,8 @@
 | status | enum | `RESERVED` / `CONFIRMED` / `PRODUCING` / `RELEASE` / `REJECTED` |
 | productionStartEpochSec | long long | 생산 시작 시각 (0 = 대기중) — `PRODUCING` 상태에서만 의미 있음 |
 | totalProductionSeconds | long long | 총 생산 소요 시간(초) |
-| shortageQty | int | 생산 완료 시 재고에 더할 부족분 수량 |
+| shortageQty | int | 승인 시점의 부족분(주문수량 − 재고), 참고용 |
+| actualProductionQty | int | 실생산량 = `ceil(shortageQty / yield)`. 생산 완료 시 재고에 더해지는 값 |
 | releasedAtEpochSec | long long | 출고 처리 시각 — `RELEASE` 상태에서만 의미 있음 |
 | releasedQty | int | 출고 수량 |
 
@@ -79,8 +80,8 @@
 - **주문승인**: 특정 주문 선택
   - 재고 ≥ 주문수량 → 즉시 `CONFIRMED`
   - 재고 < 주문수량 →
-    - `shortageQty` = 주문수량 − 재고
-    - 실생산량 = `ceil(shortageQty / yield)`
+    - `shortageQty` = 주문수량 − 재고 (부족분, 참고용)
+    - `actualProductionQty`(실생산량) = `ceil(shortageQty / yield)` — 생산라인은 수율 손실을 감안해 이만큼을 투입하지만, **생산이 끝나면 투입한 실생산량 전량이 그대로 재고에 반영된다** (수율만큼 다시 걸러내지 않음). 따라서 생산 완료 후에는 부족분보다 재고가 더 늘어날 수 있다 (예: 재고 50, 주문 100, 수율 50% → 실생산량 100 전량이 재고에 더해져 재고 150, 이 중 100을 출고하면 50이 남음)
     - `totalProductionSeconds` = 평균생산시간(분) × 실생산량 (데모 속도를 위해 분을 초로 그대로 사용, 60배 축소)
     - 상태 `PRODUCING`으로 전환
     - 생산라인이 비어 있으면 즉시 생산 시작(`productionStartEpochSec` = now), 아니면 대기(0 → 생산큐 대기)
@@ -105,7 +106,7 @@
 ### 6. 생산라인
 
 - **Tick 처리**: 메뉴 진입마다 1회 호출
-  - 현재 생산중인 주문의 경과시간이 `totalProductionSeconds` 이상이면 → 재고에 `shortageQty` 반영, 상태 `CONFIRMED`로 전환
+  - 현재 생산중인 주문의 경과시간이 `totalProductionSeconds` 이상이면 → 재고에 `actualProductionQty`(실생산량 전량) 반영, 상태 `CONFIRMED`로 전환
   - 생산라인이 비어 있고 대기중인 주문(`productionStartEpochSec == 0`)이 있으면 다음 주문을 꺼내 생산 시작
 - **생산현황표기**: 현재 생산중인 주문의 주문번호/시료명/경과시간/남은시간 표시 (없으면 "생산중인 주문 없음")
 - **대기주문확인**: 생산큐를 FIFO 순서로 표시 (주문번호/시료명/수량)
@@ -115,7 +116,7 @@
 테스트/시연을 빠르게 진행하기 위한 관리자 전용 메뉴. 메인 메뉴 8번으로 진입한다.
 
 - **테스트 주문 생성(가속평가)**: 시료ID/고객명/주문수량과 함께 `totalProductionSeconds`를 직접 지정해 주문 생성
-  - 승인 절차 없이 즉시 상태 `PRODUCING`으로 생성, `shortageQty` = 주문수량으로 설정
+  - 승인 절차 없이 즉시 상태 `PRODUCING`으로 생성, `shortageQty`/`actualProductionQty` 모두 주문수량으로 설정 (Tick 완료 시 이 값이 재고에 반영됨)
   - 생산라인이 비어 있으면 즉시 생산 시작, 아니면 기존 대기열 뒤에 FIFO로 등록 (Phase 5 로직 재사용)
   - 실제 승인 대기시간 없이 곧바로 생산 완료 → 재고 반영까지의 흐름을 짧은 시간 안에 확인 가능
 - **로그 조회**: 주문 상태전환 로그(아래 로깅 요구사항 참고)를 최근 순으로 콘솔에 출력

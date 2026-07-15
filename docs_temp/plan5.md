@@ -6,7 +6,7 @@
 
 ## 구현 체크리스트
 
-- [ ] `OrderWorkflow::Tick()` — 경과시간 ≥ totalProductionSeconds인 생산중 주문 완료 처리(재고 반영, CONFIRMED 전환, 로그)
+- [ ] `OrderWorkflow::Tick()` — 경과시간 ≥ totalProductionSeconds인 생산중 주문 완료 처리(재고에 actualProductionQty 반영 — shortageQty 아님, CONFIRMED 전환, 로그)
 - [ ] `OrderWorkflow::Tick()` — 생산라인이 비면 대기중인 다음 주문 자동 시작
 - [ ] `AppController` 메인 루프에서 매 반복 `Tick()` 호출
 - [ ] 생산현황표기: 생산중 주문의 주문번호/시료명/경과/남은시간 (없으면 안내 메시지)

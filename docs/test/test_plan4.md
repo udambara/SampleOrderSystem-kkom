@@ -19,7 +19,7 @@
 1. 주문 A(수량 30) 승인
 2. 예상 결과:
    - `shortageQty = 30 - 0 = 30`
-   - 실생산량 = `ceil(30 / 0.9) = 34`
+   - `actualProductionQty = ceil(30 / 0.9) = 34` (생산 완료 시 재고에 반영될 값)
    - `totalProductionSeconds = 10 * 34 = 340`
    - 상태 `PRODUCING`으로 전환
    - 생산라인이 비어 있었으므로 `productionStartEpochSec`가 즉시 채워짐 (생산현황표기에서 확인, Phase 5 연계)
@@ -28,7 +28,7 @@
 
 1. TC4-2 직후, 주문 B(수량 20) 승인
 2. 예상 결과:
-   - `shortageQty`, `totalProductionSeconds` 계산은 동일 방식으로 수행
+   - `shortageQty`, `actualProductionQty`, `totalProductionSeconds` 계산은 동일 방식으로 수행
    - 상태 `PRODUCING`으로 전환되지만 `productionStartEpochSec = 0` (대기, Phase 5의 대기주문확인에서 확인)
 
 ### TC4-4. 재고가 충분한 경우 즉시 CONFIRMED

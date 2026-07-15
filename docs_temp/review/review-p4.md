@@ -19,3 +19,17 @@ Phase 4 시나리오를 수동 테스트하던 중, 테스트 입력 스크립�
 - 재빌드 성공
 - 의도적으로 입력을 부족하게 준 재현 테스트에서, 수정 전에는 무한 루프(타임아웃)로 멈췄던 것이 수정 후에는 EOF 시점에 깔끔하게 종료됨(exit code 0)을 확인
 - 이후 Phase 4의 정상 시나리오(TC4-1~TC4-6: 목록 조회, 재고 부족/충분 승인, 대기열 등록, 거절, 로그 기록)를 올바른 입력 순서로 재실행해 모두 통과 확인
+
+## 설계 수정 — 생산 완료 시 재고 반영 기준
+
+Phase 5 진행 전 논의 중 발견된 설계 오류: 생산 완료 시 재고에 더할 값은 부족분(`shortageQty`)이 아니라 **실생산량(`actualProductionQty` = `ceil(shortageQty / yield)`) 전량**이어야 한다.
+
+- 이유: 생산라인은 수율 손실을 감안해 부족분보다 많은 양(`actualProductionQty`)을 투입하는데, 이 프로그램에서는 생산이 끝나면 수율만큼 다시 걸러내지 않고 투입한 실생산량 전량이 그대로 재고로 들어간다.
+- 예: 재고 50, 주문 100 → 부족분 50, 수율 50% → 실생산량 `ceil(50/0.5) = 100`. 생산 완료 시 재고는 `50 + 100 = 150`이 되고, 주문 100을 출고하면 재고 50이 남는다. (기존 설계대로 `shortageQty`만 반영했다면 재고는 `50 + 50 = 100`이 되어 출고 후 0이 남는 것으로 잘못 계산될 뻔했다.)
+
+### 조치
+
+- `Order`에 `actualProductionQty` 필드 추가 (`include/DataPersistence/Order.h`, JSON 직렬화 포함)
+- `OrderWorkflow::Approve`에서 `actualProductionQty`를 계산해 저장하도록 수정 (`src/DataPersistence/OrderWorkflow.cpp`)
+- `docs/PRD.md`, `docs/phases/phase4.md`, `docs/phases/phase5.md`, `docs/test/test_plan4.md`, `docs/test/test_plan5.md`, `docs_temp/plan4.md`, `docs_temp/plan5.md`, `docs_temp/plan9.md`를 이 기준에 맞게 갱신 — 특히 Phase 5의 `Tick()`은 재고에 `shortageQty`가 아니라 `actualProductionQty`를 더하도록 설계 변경
+- Phase 5 구현 시 이 수정된 설계를 기준으로 `Tick()`을 작성할 예정 (아직 Phase 5 코드 자체는 작성 전)

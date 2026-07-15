@@ -40,6 +40,7 @@ Order OrderWorkflow::Approve(Order order) {
 
     order.status = OrderStatus::PRODUCING;
     order.shortageQty = shortage;
+    order.actualProductionQty = actualProductionQty;
     order.totalProductionSeconds =
         static_cast<long long>(sample->avgProductionTimeMinutes * actualProductionQty);
 
