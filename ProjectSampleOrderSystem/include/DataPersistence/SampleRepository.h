@@ -16,6 +16,9 @@ public:
 
     std::vector<Sample> GetAll() const;
 
+    // Case-insensitive substring match against sample name.
+    std::vector<Sample> FindByName(const std::string& keyword) const;
+
     std::optional<Sample> FindById(const std::string& id) const;
 
 private:

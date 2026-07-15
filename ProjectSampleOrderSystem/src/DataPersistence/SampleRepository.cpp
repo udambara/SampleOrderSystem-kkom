@@ -2,10 +2,22 @@
 #include "third_party/nlohmann/json.hpp"
 
 #include <algorithm>
+#include <cctype>
 #include <filesystem>
 #include <fstream>
 
 namespace dp {
+
+namespace {
+
+std::string ToLower(const std::string& text) {
+    std::string result = text;
+    std::transform(result.begin(), result.end(), result.begin(),
+                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return result;
+}
+
+}
 
 SampleRepository::SampleRepository(std::string filePath) : m_filePath(std::move(filePath)) {
     if (!std::filesystem::exists(m_filePath)) {
@@ -51,6 +63,17 @@ bool SampleRepository::Add(const Sample& sample, std::string& errorMessage) {
 
 std::vector<Sample> SampleRepository::GetAll() const {
     return Load();
+}
+
+std::vector<Sample> SampleRepository::FindByName(const std::string& keyword) const {
+    std::vector<Sample> result;
+    std::string loweredKeyword = ToLower(keyword);
+    for (const auto& sample : Load()) {
+        if (ToLower(sample.name).find(loweredKeyword) != std::string::npos) {
+            result.push_back(sample);
+        }
+    }
+    return result;
 }
 
 std::optional<Sample> SampleRepository::FindById(const std::string& id) const {

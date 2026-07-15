@@ -7,12 +7,16 @@ namespace cmvc {
 
 class SampleController {
 public:
-    // Runs the sample management submenu. Stub in this phase — see docs/phases/phase2.md.
+    // Runs the sample management submenu loop until the user chooses to go back.
     void Run();
 
 private:
     dp::SampleRepository m_sampleRepo;
     ConsoleView m_view;
+
+    void HandleRegister();
+    void HandleList();
+    void HandleSearch();
 };
 
 }
