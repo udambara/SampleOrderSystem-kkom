@@ -32,6 +32,6 @@
 - `docs/phases/phase1.md` ~ `phase9.md` — 단계별 상세 설계
 - `docs_temp/plan1.md` ~ `plan9.md` — 단계별 구현 체크리스트
 - `docs/test/test_plan1.md` ~ `test_plan9.md` — 단계별 수동 테스트 시나리오
-- `docs/review/` — 단계별 리뷰 피드백 기록
+- `docs_temp/review/` — 단계별 리뷰 피드백 기록
 
 빌드/개발 가이드는 `CLAUDE.md`를 참고하세요.

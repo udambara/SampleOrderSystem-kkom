@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include "DataPersistence/Sample.h"
+#include "DataPersistence/Order.h"
+#include "DataPersistence/SampleRepository.h"
 
 namespace cmvc {
 
@@ -32,6 +34,14 @@ public:
 
     void PrintOrderMenu() const;
     NewOrderInput ReadNewOrderInput() const;
+
+    void PrintApprovalMenu() const;
+
+    // Prints a numbered order table: 번호/주문번호/고객명/시료명/수량/상태.
+    void PrintOrderTable(const std::vector<dp::Order>& orders, const dp::SampleRepository& sampleRepo) const;
+
+    // Reads a 1-based selection index; returns 0 if the user cancels.
+    int ReadIndexChoice(int count, const std::string& prompt) const;
 };
 
 }

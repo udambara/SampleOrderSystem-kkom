@@ -18,6 +18,8 @@ public:
 
     std::vector<Order> GetAll() const;
 
+    std::vector<Order> GetByStatus(OrderStatus status) const;
+
     std::optional<Order> FindById(const std::string& id) const;
 
     // Formats as ORD-YYYYMMDD-NNNN using the current date and existing order count + 1.

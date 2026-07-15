@@ -68,6 +68,16 @@ std::vector<Order> OrderRepository::GetAll() const {
     return Load();
 }
 
+std::vector<Order> OrderRepository::GetByStatus(OrderStatus status) const {
+    std::vector<Order> result;
+    for (const auto& order : Load()) {
+        if (order.status == status) {
+            result.push_back(order);
+        }
+    }
+    return result;
+}
+
 std::optional<Order> OrderRepository::FindById(const std::string& id) const {
     std::vector<Order> orders = Load();
     auto it = std::find_if(orders.begin(), orders.end(),
